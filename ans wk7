@@ -1,0 +1,89 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Theme Switcher</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <h1 id="title">Welcome to My Animated Page</h1>
+  <button id="themeBtn">Switch Theme</button>
+  <button id="animateBtn">Animate Me</button>
+  <div class="box" id="animatedBox"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+styles.css
+body {
+  font-family: sans-serif;
+  text-align: center;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  margin: 30px auto;
+  background-color: royalblue;
+  transition: transform 0.5s ease;
+}
+
+.animate {
+  animation: bounce 0.7s ease forwards;
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
+}
+
+body.dark {
+  background-color: #121212;
+  color: white;
+}
+
+body.light {
+  background-color: #f9f9f9;
+  color: black;
+}
+
+script.js
+// Load theme from localStorage
+window.onload = () => {
+  const theme = localStorage.getItem("theme") || "light";
+  document.body.classList.add(theme);
+};
+
+// Toggle theme and save preference
+document.getElementById('themeBtn').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  document.body.classList.toggle('light');
+
+  const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+  localStorage.setItem("theme", currentTheme);
+});
+
+// Animate box on button click
+document.getElementById('animateBtn').addEventListener('click', () => {
+  const box = document.getElementById('animatedBox');
+  box.classList.remove('animate'); // Reset animation if already applied
+  void box.offsetWidth; // Trigger reflow
+  box.classList.add('animate');
+});
